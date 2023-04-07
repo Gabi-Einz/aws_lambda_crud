@@ -13,7 +13,8 @@ router.post("/user", async (req, res, next) => {
     const user = {
       id,
       name,
-      email
+      email,
+      createdAt: new Date().toString()
     }
     await dynamodb.put({
       TableName: USER_TABLE,

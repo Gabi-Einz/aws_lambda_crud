@@ -47,6 +47,24 @@ functions:
       - httpApi:
           path: /users/{id}
           method: put
+  createAnime:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /anime
+          method: post
+  getAnimes:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /animes
+          method: get
+  getAnimesByUser:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /users/{id}/animes
+          method: get
 
 resources:
   Resources:
@@ -61,5 +79,27 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+    AnimeTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: AnimeTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: id
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: UserIdIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
 plugins:
   - serverless-offline
