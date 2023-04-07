@@ -1,3 +1,10 @@
+# aws_lambda_crud
+Este proyecto es un CRUD hecho con express utilizando los servicios lambda y dynamoDb de AWS.
+
+# Para iniciar el proyecto localmente hacer lo siguiente:
+- npm install
+- sls offline
+
 <!--
 title: 'Serverless Framework Node Express API on AWS'
 description: 'This template demonstrates how to develop and deploy a simple Node Express API running on AWS Lambda using the traditional Serverless Framework.'
