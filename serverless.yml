@@ -1,0 +1,65 @@
+service: aws-apirest-project
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: sa-east-1
+  iamRoleStatement:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+  createUser:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /user
+          method: post
+  getUsers:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /users
+          method: get
+  getUserById:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /users/{id}
+          method: get
+  deleteUserById:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /users/{id}
+          method: delete
+  putUserById:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /users/{id}
+          method: put
+
+resources:
+  Resources:
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+plugins:
+  - serverless-offline
